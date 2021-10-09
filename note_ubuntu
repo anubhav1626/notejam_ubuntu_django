@@ -1,0 +1,21 @@
+FROM ubuntu
+
+RUN apt-get update && apt-get install git -y
+RUN git clone https://github.com/komarserjio/notejam.git
+WORKDIR /notejam/django
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -y tzdata
+RUN apt-get update && apt install curl -y && apt-get install software-properties-common -y
+RUN apt-get update && apt-get install python2 sqlite -y
+RUN apt-get update
+RUN apt-get install wget -y
+RUN wget https://bootstrap.pypa.io/pip/2.7/get-pip.py
+RUN python2 get-pip.py
+RUN pip2 install -r requirements.txt
+CMD ["python2","./notejam/manage.py","makemigrations"]
+CMD ["python2","./notejam/manage.py","syncdb --noinput"]
+CMD ["python2","./notejam/manage.py","migrate"]
+EXPOSE 8080
+CMD ["python2","./notejam/manage.py","runserver","0.0.0.0:8080"]
+                                                                                                            
+                                                                                                            
+                                                              
